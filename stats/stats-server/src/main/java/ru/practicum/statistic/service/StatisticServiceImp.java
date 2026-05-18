@@ -1,6 +1,5 @@
 package ru.practicum.statistic.service;
 
-import ru.practicum.GeneralConstants;
 import ru.practicum.dto.StatisticDto;
 import ru.practicum.dto.StatisticResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +14,6 @@ import ru.practicum.statistic.model.Statistic;
 import ru.practicum.statistic.repository.AppRepository;
 import ru.practicum.statistic.repository.StatisticRepository;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
