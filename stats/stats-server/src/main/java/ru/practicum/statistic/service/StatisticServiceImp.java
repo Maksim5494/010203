@@ -37,23 +37,21 @@ public class StatisticServiceImp implements StatisticService {
     }
 
     @Override
-    public List<StatisticResponse> getStats(String start, String end, List<String> uris, boolean unique) {
-        LocalDateTime startDateTime = convertToLocalDateTime(start);
-        LocalDateTime endDateTime = convertToLocalDateTime(end);
-        validateDates(startDateTime, endDateTime);
+    public List<StatisticResponse> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
+        validateDates(start, end);
 
         if (unique) {
             if (uris == null) {
-                return getStatsForAllEndpointsByUniqueIp(startDateTime, endDateTime);
+                return getStatsForAllEndpointsByUniqueIp(start, end);
             }
-            return getStatsByUniqueIp(startDateTime, endDateTime, uris);
+            return getStatsByUniqueIp(start, end, uris);
         }
 
         if (uris == null) {
-            return getStatsForAllEndpointsByAllIp(startDateTime, endDateTime);
+            return getStatsForAllEndpointsByAllIp(start, end);
         }
 
-        return getStatsByAllIp(startDateTime, endDateTime, uris);
+        return getStatsByAllIp(start, end, uris);
     }
 
     private List<StatisticResponse> getStatsByUniqueIp(LocalDateTime start, LocalDateTime end, List<String> uris) {
@@ -79,11 +77,6 @@ public class StatisticServiceImp implements StatisticService {
             throw new NotFoundException("Bad required app name");
         }
         return app.get();
-    }
-
-    private LocalDateTime convertToLocalDateTime(String dateTime) {
-        String decoded = URLDecoder.decode(dateTime, StandardCharsets.UTF_8);
-        return LocalDateTime.parse(decoded, GeneralConstants.DATE_FORMATTER);
     }
 
     private void validateDates(LocalDateTime start, LocalDateTime end) {
